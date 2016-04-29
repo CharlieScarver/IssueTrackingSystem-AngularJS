@@ -1,14 +1,15 @@
 'use strict';
 
 angular.module('issueTrackingSystem.users.authentication', [
-		//'issueTrackingSystem.users.identity'
+		'issueTrackingSystem.users.identity'
 	])
 	.factory('authentication', [
 		'$http', 
 		'$q',
 		'$cookies',
+		'identity',
 		'BASE_URL',
-		function($http, $q, $cookies, BASE_URL) {
+		function($http, $q, $cookies, identity, BASE_URL) {
 
 			var AUTHENTICATION_COOKIE_KEY = '!__Authentication_Cookie_Key__!';
 
@@ -34,7 +35,11 @@ angular.module('issueTrackingSystem.users.authentication', [
 				$http(request)
 					.then(function (response) {
 						preserveUserData(response.data);
-						deferred.resolve();
+
+						identity.requestUserProfile()
+							.then(function () {
+								deferred.resolve();
+							});
 					});
 
 				return deferred.promise;
@@ -70,12 +75,14 @@ angular.module('issueTrackingSystem.users.authentication', [
 
 			function logout() {
 				$cookies.remove(AUTHENTICATION_COOKIE_KEY);
-				$http.defaults.headers.common.Authorization = undefined;				
+				$http.defaults.headers.common.Authorization = undefined;
+
+				identity.removeUserProfile();			
 			}
 
 			function refreshCookie() {
 				if (isAuthenticated()) {
-					$http.defaults.headers.common.Authorization = $cookies.get(AUTHENTICATION_COOKIE_KEY);
+					$http.defaults.headers.common.Authorization = 'Bearer ' + $cookies.get(AUTHENTICATION_COOKIE_KEY);
 				}
 			}
 
