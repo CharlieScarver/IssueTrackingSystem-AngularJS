@@ -6,10 +6,23 @@ angular.module('issueTrackingSystem.users.authentication', [
 	.factory('authentication', [
 		'$http', 
 		'$q',
+		'$cookies',
 		'BASE_URL',
-		function($http, $q, BASE_URL) {
+		function($http, $q, $cookies, BASE_URL) {
+
+			var AUTHENTICATION_COOKIE_KEY = '!__Authentication_Cookie_Key__!';
+
+			function preserveUserData(data) {
+				var accessToken = data.access_token;
+				
+				$http.defaults.headers.common.Authorization = 'Bearer ' + accessToken;
+				
+				$cookies.put(AUTHENTICATION_COOKIE_KEY, accessToken);
+			}
 
 			function loginUser(user) {
+				var deferred = $q.defer();
+
 				var loginData = 'Username=' + user.email + '&Password=' + user.password + '&grant_type=password',
 					request = {
 					    method: 'POST',
@@ -18,10 +31,18 @@ angular.module('issueTrackingSystem.users.authentication', [
 					    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 					};
 
-				return $http(request);
+				$http(request)
+					.then(function (response) {
+						preserveUserData(response.data);
+						deferred.resolve();
+					});
+
+				return deferred.promise;
 			}
 
 			function registerUser(user) {
+				var deferred = $q.defer();
+
 				var registerData = 'Email=' + user.email 
 						+ '&Password=' + user.password 
 						+ '&ConfirmPassword=' + user.confirmPassword,
@@ -32,23 +53,38 @@ angular.module('issueTrackingSystem.users.authentication', [
 					    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 					};
 
-				return $http(request);
-			}
-
-			function registerAndLoginUser(user) {
-				var deferred = $q.defer();
-
-				registerUser(user)
+				$http(request)
 					.then(function () {
-						deferred.resolve(loginUser(user));
+						loginUser(user)
+							.then(function () {
+								deferred.resolve();
+							});
 					});
 
 				return deferred.promise;
 			}
 
+			function isAuthenticated() {
+				return !!$cookies.get(AUTHENTICATION_COOKIE_KEY);
+			}
+
+			function logout() {
+				$cookies.remove(AUTHENTICATION_COOKIE_KEY);
+				$http.defaults.headers.common.Authorization = undefined;				
+			}
+
+			function refreshCookie() {
+				if (isAuthenticated()) {
+					$http.defaults.headers.common.Authorization = $cookies.get(AUTHENTICATION_COOKIE_KEY);
+				}
+			}
+
 			return {
-				registerUser: registerAndLoginUser,
-				loginUser: loginUser
+				registerUser: registerUser,
+				loginUser: loginUser,
+				isAuthenticated: isAuthenticated,
+				logout: logout,
+				refreshCookie: refreshCookie
 			}
 		}])
 

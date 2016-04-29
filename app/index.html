@@ -10,12 +10,14 @@
   <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
   <link rel="stylesheet" href="styles/app.css">
-  <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+  <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>  
+  <script src="bower_components/angular/angular.js"></script>
 </head>
-<body>
-	<div ng-if="!isAuthenticated">
-		<a href="#/dashboard" class="btn btn-success btn-lg">Dashboard</a>
-		<a href="#/dashboard" class="btn btn-success btn-lg">Projects</a>
+<body ng-cloak ng-controller="HomeController">
+	<div ng-if="isAuthenticated">
+		<a href="#/" class="btn btn-success btn-lg">Dashboard</a>
+		<a href="#/projects" class="btn btn-success btn-lg">Projects</a>    
+    <button ng-click="logout()" class="btn btn-link btn-lg">Logout</button>
 	</div>
 <!--
 	<div class="panel panel-info">
@@ -23,13 +25,6 @@
       <h3 class="panel-title">Something</h3>
     </div>
   </div>
-
-<!--
-	<h1><strong>Dashboard</strong></h1>
-
-	<h1><strong>Affiliated Projects</strong></h1>
-
-	<a href="#" class="btn btn-link"><h3>entirely new project</h3></a>
 -->
 
   <div class="container-fluid">
@@ -38,7 +33,6 @@
 
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
   <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-  <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-route/angular-route.js"></script>
   <script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
   <script src="js/app.js"></script>

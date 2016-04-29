@@ -14,17 +14,25 @@ angular.module('issueTrackingSystem.home', [
 		'$route',
 		'authentication',
 		function HomeController($scope, $route, authentication) {
+			$scope.isAuthenticated = authentication.isAuthenticated();
+
 			$scope.login = function (user) {
 				authentication.loginUser(user)
-					.then(function (loggedInUser) {
-						$scope.isAuthenticated = true;
+					.then(function () {
+						$route.reload();
 					});
 			};
 
 			$scope.register = function (user) {
 				authentication.registerUser(user)
-					.then(function(registeredUser) {
-						$scope.isAuthenticated = true;
+					.then(function() {
+						$route.reload();
 					});
+			};
+
+			$scope.logout = function () {
+				authentication.logout();
+				$scope.isAuthenticated = false;
+				$route.reload();
 			};
 		}]);

@@ -8,4 +8,7 @@ angular.module('issueTrackingSystem', [
 	.config(['$routeProvider', function($routeProvider) {
 		$routeProvider.otherwise({redirectTo: '/'});
 	}])
+	.run(['authentication', function (authentication) {
+		authentication.refreshCookie();
+	}])
 	.constant('BASE_URL','http://softuni-issue-tracker.azurewebsites.net/');
