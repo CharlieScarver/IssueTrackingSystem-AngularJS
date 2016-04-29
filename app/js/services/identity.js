@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('socialNetwork.users.identity', [])
+angular.module('issueTrackingSystem.users.identity', [])
 	.factory('identity', [
 		'$http',
 		'$q',
