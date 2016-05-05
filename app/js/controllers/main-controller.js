@@ -15,6 +15,8 @@ angular.module('issueTrackingSystem.common', [
 			$scope.logout = function () {
 				authentication.logout();
 				$scope.isAuthenticated = false;
+				$scope.currentUser = undefined;
+
 				if ($location.path() === '/') {
 					$route.reload();
 				} else {
