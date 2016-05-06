@@ -64,6 +64,10 @@ hr {
   max-width: 250px;
 }
 
+.issues-table th {
+  min-width: 80px;
+}
+
 .row {
   max-width: 1900px;
 }

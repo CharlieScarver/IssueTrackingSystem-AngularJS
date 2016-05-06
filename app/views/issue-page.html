@@ -1,0 +1,66 @@
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<h3 class="panel-title">Issue Page</h3>
+	</div>
+
+	<div class="panel-body">
+		<div class="margin-bottom-50"></div>
+		<div class="row">
+			<div class="col-md-4 col-md-offset-1">
+			
+				<form class="form-horizontal">
+					<div class="form-group">			
+						<h3>{{issue.IssueKey}}</h3>
+					</div>
+
+					<div class="form-group">
+						<label for="proj-title">Title: </label>
+						<input type="text" id="proj-title" value="{{issue.Title}}"/>
+					</div>
+
+					<div class="form-group">
+						<label for="proj-desc">Description: </label>
+						<input type="text" id="proj-desc" value="{{issue.Description}}"/>
+					</div>
+
+					<div class="form-group">
+						<label for="proj-assi-id">AssigneeId: <span class="not-bold">(current id: {{issue.Assignee.Id}})</span></label>
+						<input type="text" id="proj-assi-id" value="{{issue.Assignee.Username}}"/>
+					</div>
+
+					<div class="form-group">
+						<label for="proj-prio-id">PriorityId: <span class="not-bold">(current id: {{issue.Priority.Id}})</span></label>
+						<input type="text" id="proj-prio-id" value="{{issue.Priority.Name}}"/>
+					</div>
+
+					<div class="form-group">
+						<label for="proj-date">DueDate: </label>
+						<input type="text" id="proj-date" value="{{issue.DueDate}}"/>
+					</div>
+
+					<div class="form-group">
+						Author: {{issue.Author.Username}}
+					</div>
+
+					<div class="form-group">
+						Project: {{issue.Project.Name}}
+					</div>
+
+					<div class="form-group">
+						Status: {{issue.Status.Name}}
+					</div>
+
+					<div class="form-group">
+						Labels: <span ng-repeat="label in Labels">{{label.Name}}, </span>
+					</div>		
+				</form>
+
+			</div>
+
+			<div class="col-md-6 col-md-offset-1">
+				<h3>Available statuses:</h3>
+				<h4 ng-repeat="status in issue.AvailableStatuses">----{{status.Name}}</h4>		
+			</div>
+		</div>
+	</div>
+</div>
