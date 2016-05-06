@@ -23,7 +23,17 @@ angular.module('issueTrackingSystem.projects.projectPage', [
 			getProject.getProjectById(projectId)
 				.then(function (projectData) {
 					$scope.project = projectData;
-					console.log(projectData);
+
+					identity.getCurrentUser()
+						.then(function (user) {
+							$scope.currentUser = user;
+							if (user.Id === projectData.Lead.Id) {
+								$scope.isProjectLeader = true;
+							}
+							console.log(user);
+						});
 				});
+
+			
 
 		}]);

@@ -1,33 +1,33 @@
 <div class="panel panel-info">
 	<div class="panel-heading">
-		<h3 class="panel-title">Project Page</h3>
+		<h3 class="panel-title">Edit Project</h3>
 	</div>
 
 	<div class="panel-body">
 		<div class="margin-bottom-50"></div>
 		<div class="row">
-			<div class="col-md-4 col-md-offset-1">
+			<div class="col-md-5 col-md-offset-1">
 			
-				<form class="form-horizontal">
+				<form name="editProjectForm" class="form-horizontal">
 					<div class="form-group">			
-						<h3>{{project.ProjectKey}} <a ng-if="isProjectLeader" href="#/projects/{{project.Id}}/edit" class="btn btn-success ">Edit</a> <a ng-if="isProjectLeader" href="#/projects/{{project.Id}}/add-issue" class="btn btn-success ">Add Issue</a></h3>
+						<h3>{{project.ProjectKey}}</h3>
 					</div>
 
 					<div class="form-group">Project key: {{project.ProjectKey}}</div>
 
 					<div class="form-group">
 						<label for="proj-name">Name: </label>
-						<input type="text" id="proj-name" disabled="disabled" value="{{project.Name}}"/>
+						<input type="text" id="proj-name" class="form-control" ng-model="project.Name" required="required"/>
 					</div>
 
 					<div class="form-group">
 						<label for="proj-desc">Description: </label>
-						<input type="text" id="proj-desc" disabled="disabled" value="{{project.Description}}"/>
+						<input type="text" id="proj-desc" class="form-control" ng-model="project.Description" required="required"/>
 					</div>
 
 					<div class="form-group">
 						<label for="proj-lead-id">LeadId: <span class="not-bold">(current id: {{project.Lead.Id}})</span></label>
-						<input type="text" id="proj-lead-id" disabled="disabled" value="{{project.Lead.Username}}"/>
+						<input type="text" id="proj-lead-id" class="form-control" ng-model="project.Lead.Username"/>
 					</div>
 
 					<div class="form-group">
@@ -38,11 +38,14 @@
 						Priorities: <span ng-repeat="prio in project.Priorities">{{prio.Name}}, </span>
 					</div>
 					
+					<div class="form-group">
+						<button class="btn btn-success btn-lg" ng-disabled="editProjectForm.$invalid" ng-click="editProject(project)">Edit Project</button>
+					</div>					
 				</form>
 
 			</div>
 
-			<div class="col-md-6 col-md-offset-1">
+			<div class="col-md-5 col-md-offset-1">
 				<table class="table table-striped table-hover issues-table">
 				  <thead>
 				    <tr>
