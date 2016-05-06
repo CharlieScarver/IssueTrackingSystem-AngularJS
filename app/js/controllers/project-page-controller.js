@@ -41,7 +41,6 @@ angular.module('issueTrackingSystem.projects.projectPage', [
 							if (user.Id === projectData.Lead.Id) {
 								$scope.isProjectLeader = true;
 							}
-							console.log(user);
 						});
 				});			
 

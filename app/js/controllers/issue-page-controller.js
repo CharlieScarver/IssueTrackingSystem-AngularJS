@@ -34,7 +34,6 @@ angular.module('issueTrackingSystem.issues.issuePage', [
 			getIssue.getIssueById(issueId)
 				.then(function (issueData) {
 					$scope.issue = issueData;
-					console.log(issueData);
 				});
 
 		}]);

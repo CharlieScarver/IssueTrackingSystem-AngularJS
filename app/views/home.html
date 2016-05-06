@@ -1,4 +1,4 @@
-<div class="margin-bottom-50"></div>
+<div class="margin-bottom-35"></div>
 <div class="row" ng-if="!__isAuthenticated">
 	<div class="col-md-4 col-md-offset-1">
 		<form name="loginUserForm">
@@ -33,14 +33,14 @@
 	<div class="col-md-4 ">
 		<h2><strong>Affiliated Projects</strong></h2>
 
-		<div ng-repeat="project in affiliatedProjects">
+		<div repeat="project in affiliatedProjects">
 			<a href="#/projects/{{project.Id}}" class="btn btn-link btn-lg list-group-itema">{{project.Name}}</a>
 		</div>
 		<div>
-		<button ng-repeat="n in [] | range:totalProjectsPages" ng-click="getProjectsPage(n+1)" class="btn btn-primary margin-bottom-right-5 project-page-btn" id="ppb-{{n+1}}">{{n+1}}</button>
+		<button repeat="n in [] | range:totalProjectsPages" ng-click="getProjectsPage(n+1)" class="btn btn-primary margin-bottom-right-5 project-page-btn" id="ppb-{{n+1}}">{{n+1}}</button>
 		</div>
 	</div>
-	<div class="col-md-4 col-md-offset-3">
+	<div class="col-md-4 col-md-offset-2">
 		<table class="table table-striped table-hover ">
 		  <thead>
 		    <tr>
@@ -51,17 +51,17 @@
 		    </tr>
 		  </thead>
 		  <tbody>
-		    <tr ng-repeat="issue in userIssues">
+		    <tr repeat="issue in userIssues">
 		      <td><a href="#/issues/{{issue.Id}}" class="btn btn-link">{{issue.Title}}</a></td>
 		      <td>{{issue.Description | characterLimit:25}}</td>
 		      <td><a href="#/projects/{{issue.Project.Id}}" class="btn btn-link">{{issue.Project.Name}}</a></td>
 		      <td>{{issue.DueDate}}</td>
 		    </tr>
 		  </tbody>
-		</table> 
+		</table>
 
 		<div>
-		<button ng-repeat="n in [] | range:totalIssuePages" ng-click="getIssuesPage(n+1)" class="btn btn-primary margin-bottom-right-5 issue-page-btn" id="ipb-{{n+1}}">{{n+1}}</button>
+		<button repeat="n in [] | range:totalIssuePages" ng-click="getIssuesPage(n+1)" class="btn btn-primary margin-bottom-right-5 issue-page-btn" id="ipb-{{n+1}}">{{n+1}}</button>
 		</div>
 		
 	</div>

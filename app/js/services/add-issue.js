@@ -10,19 +10,15 @@ angular.module('issueTrackingSystem.projects.addIssue', [])
 			function addIssue(issue) {
 				var deferred = $q.defer();
 				var request,
-					issueData = 'Title=' + issue.Name 
-					+ '&Description=' + issue.Description 
-					+ '&DueDate=' + issue.DueDate
-					+ '&AssigneeId=' + issue.AssigneeId;
-
-				for (var i = 0, len = project.Labels; i < len; i++) {
-					issueData += '&Labels[' + i + '].Name' + project.Labels.Name;
-				}
-
-				for (var i = 0, len = project.Priorities; i < len; i++) {
-					issueData += '&Priorities[' + i + '].Name' + project.Priorities.Name;
-				}
-					
+					issueData = 'Title=' + issue.title 
+						+ '&Description=' + issue.description
+						+ '&ProjectId=' + issue.projectId
+						+ '&AssigneeId=' + issue.assigneeId
+						+ '&PriorityId=' + issue.priorityId
+						+ '&DueDate=' + $('#datepicker').val()//issue.date//new Date(issue.date).toISOString()
+						+ '&Labels[0].Name=' + issue.label;
+						// TODO: ngModel can't take date value from datepicker
+						
 				request = {
 				    method: 'POST',
 				    url: BASE_URL + 'Issues/',

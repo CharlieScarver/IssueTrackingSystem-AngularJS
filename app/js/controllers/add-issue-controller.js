@@ -2,9 +2,9 @@
 
 angular.module('issueTrackingSystem.projects.addIssuePage', [
 		'issueTrackingSystem.users.identity',
-		'issueTrackingSystem.projects.getProject',
 		'issueTrackingSystem.projects.userLeadProjects',
 		'issueTrackingSystem.users.getAllUsers',
+		'issueTrackingSystem.labels.getAllLabels',
 		'issueTrackingSystem.projects.addIssue'
 	])
 	.config(['$routeProvider', function ($routeProvider) {
@@ -27,18 +27,28 @@ angular.module('issueTrackingSystem.projects.addIssuePage', [
 	.controller('AddIssuePageController', [
 		'$scope',
 		'$route',
+		'$location',
 		'identity',
-		'getProject',
 		'userLeadProjects',
 		'getAllUsers',
+		'getAllLabels',
 		'addIssue',
-		function AddIssuePageController($scope, $route, identity, getProject, 
-			userLeadProjects, getAllUsers, addIssue) {
+		'toastr',
+		function AddIssuePageController($scope, $route, $location, identity, 
+			userLeadProjects, getAllUsers, getAllLabels, addIssue, toastr) {
 
 			var projectId = $route.current.pathParams['id'];
+
+			$( "#datepicker" ).datepicker({
+				dateFormat: "yy/mm/dd"
+			});
 			
 			$scope.createIssue = function (issue) {
-				//addIssue.addIssue(issue);	
+				addIssue.addIssue(issue)
+					.then(function (createdIssue) {
+						$location.path('/projects/' + issue.projectId);
+						toastr.success('Issue "' + createdIssue.Title + '" was created successfully');						
+					});	
 			};
 
 			$scope.loadPriorities = function (projectId) {							
@@ -64,15 +74,28 @@ angular.module('issueTrackingSystem.projects.addIssuePage', [
 
 					userLeadProjects.getUserLeadProjects(user.Id, 1, 10000)
 						.then(function (projectsData){
-							$scope.projects = projectsData.Projects;
-
-							getAllUsers.getAllUsers()
-								.then(function (usersData) {
-									$scope.users = usersData;
-								});
+							$scope.projects = projectsData.Projects;							
 						});
 				});
 			
-			
+			getAllUsers.getAllUsers()
+				.then(function (usersData) {
+					$scope.users = usersData;
+				});
+
+			getAllLabels.getAllLabels()
+				.then(function (labels) {
+					var labelsArr = [];
+					labels.forEach(function (el) {
+						labelsArr.push(el.Name);
+					});
+					$scope.labels = labelsArr;
+
+					$scope.complete = function () {
+					    $( "#issue-label" ).autocomplete({
+					      source: $scope.labels
+					    });
+				    };
+				});
 
 		}]);
