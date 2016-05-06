@@ -11,14 +11,17 @@ angular.module('issueTrackingSystem.logout', [
 	}])	
 	.controller('LogoutController', [
 		'$scope',
+		'$rootScope',
 		'$location',
 		'authentication',
-		function LogoutController($scope, $location, authentication) {
+		function LogoutController($scope, $rootScope, $location, authentication) {
 
 			$scope.logout = function () {
 				authentication.logout();
+				$rootScope.__isAuthenticated = false;
 				$location.path('/');
-				// TODO: toastr
-			}
+				toastr.success('You successfully logged out.');
+			};
 
+			$scope.logout();
 		}]);

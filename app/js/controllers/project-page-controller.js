@@ -32,8 +32,6 @@ angular.module('issueTrackingSystem.projects.projectPage', [
 							}
 							console.log(user);
 						});
-				});
-
-			
+				});			
 
 		}]);

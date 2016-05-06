@@ -6,30 +6,38 @@ angular.module('issueTrackingSystem.common', [
 	])
 	.controller('MainController', [
 		'$scope',
+		'$rootScope',
 		'$location',
 		'$route',
 		'authentication',
 		'identity',
-		function MainController($scope, $location, $route, authentication, identity) {
+		function MainController($scope, $rootScope, $location, $route, authentication, identity) {
+			identity.requestUserProfile();
 
 			$scope.logout = function () {
-				$scope.isAuthenticated = false;
-				$scope.currentUser = undefined;
+				// may be unnecessary
+				//identity.removeUserProfile();
+				//$scope.currentUser = undefined;		
 				$location.path('/logout');
 			};
 
-			identity.getCurrentUser()
-				.then(function (user) {
-					$scope.currentUser = user;
-					$scope.isAuthenticated = true;
-					console.log(user);
-				});
+			$scope.$watch('__isAuthenticated', function() {
+				console.log('__isAuth: ' + $rootScope.__isAuthenticated);
 
-			if (authentication.isAuthenticated() && !$scope.currentUser) {
-				$scope.isAuthenticated = true; // to see navigation
-				identity.requestUserProfile();
-			}
+				if ($rootScope.__isAuthenticated && authentication.isAuthenticated() && !$scope.currentUser) {
+				// if user has logged in and we don't have a user already
 
-			// TODO: login/logout/login -> won't show menu, because MainController is not reinitialized
+					// get the new user
+					identity.getCurrentUser()
+						.then(function (user) {
+							$scope.currentUser = user;
+							//console.log(user);
+							console.log('main');
+						});
+				} else {
+					$scope.currentUser = undefined;
+					identity.removeUserProfile();
+				}        
+		    });
 
 		}]);

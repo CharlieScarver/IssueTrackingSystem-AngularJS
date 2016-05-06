@@ -16,13 +16,14 @@ angular.module('issueTrackingSystem.home', [
 	}])	
 	.controller('HomeController', [
 		'$scope',
+		'$rootScope',
 		'$route',
 		'$timeout',
 		'authentication',
 		'identity',
 		'userIssues',
 		'userLeadProjects',
-		function HomeController($scope, $route, $timeout, 
+		function HomeController($scope, $rootScope, $route, $timeout, 
 			authentication, identity, userIssues, userLeadProjects) {
 					
 			function changeActiveIssuePageButton(page) {
@@ -36,8 +37,14 @@ angular.module('issueTrackingSystem.home', [
 			}
 
 			var affiliatedProjects = [];
-
+			
 			$scope.isAuthenticated = authentication.isAuthenticated();
+			if ($scope.isAuthenticated) {
+				// if a user is already authenticated
+				$rootScope.__isAuthenticated = true;
+			} else {
+				$rootScope.__isAuthenticated = false;
+			}
 			
 			$scope.currentIssuePage = 1;	
 			$scope.currentProjectPage = 1;
@@ -45,7 +52,9 @@ angular.module('issueTrackingSystem.home', [
 			$scope.login = function (user) {
 				authentication.loginUser(user)
 					.then(function () {
-						$route.reload();
+						$route.reload();						
+						toastr.success('You successfully logged in.');
+						$rootScope.__isAuthenticated = true;
 					});
 			};
 
@@ -53,11 +62,13 @@ angular.module('issueTrackingSystem.home', [
 				authentication.registerUser(user)
 					.then(function() {
 						$route.reload();
+						toastr.success('You successfully registered and logged in.');
+						$rootScope.__isAuthenticated = true;
 					});
 			};
 
-			if ($scope.isAuthenticated) {
-				
+			if ($rootScope.__isAuthenticated) {
+
 				$scope.getIssuesPage = function (page) {
 
 					if (parseInt(page) !== parseInt($scope.currentIssuePage)) {
@@ -92,7 +103,6 @@ angular.module('issueTrackingSystem.home', [
 					.then(function (user) {
 						$scope.currentUser = user;
 						$scope.isAuthenticated = true;
-						console.log(user);
 
 						// get issues
 						userIssues.getUserIssues(1)
@@ -120,7 +130,6 @@ angular.module('issueTrackingSystem.home', [
 										});
 
 										$scope.affiliatedProjects = affiliatedProjects;
-										console.log($scope.affiliatedProjects);
 
 										// giving time for the ng-repeat to be executed after scope update
 										$timeout(function(){
