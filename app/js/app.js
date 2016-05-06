@@ -32,15 +32,17 @@ angular.module('issueTrackingSystem', [
 			}
 		}]);
 	}])
-	.run(['$rootScope', '$location', 'authentication', function ($rootScope, $location, authentication) {
+	.run(['$rootScope', '$location', 'authentication', 'toastr', 
+		function ($rootScope, $location, authentication, toastr) {
 			$rootScope.$on('$routeChangeError', function (ev, current, previous, rejection) {
 				if (rejection === 'Unauthorized Access') {
 					$location.path('/');
 					console.log(rejection);
-				}			
+				}
+				toastr.error(rejection);		
 			});
 
 			authentication.refreshCookie();
-	}])
+		}])
 	.constant('toastr', toastr)
 	.constant('BASE_URL','http://softuni-issue-tracker.azurewebsites.net/');
