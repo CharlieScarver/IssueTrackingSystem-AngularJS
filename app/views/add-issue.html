@@ -1,0 +1,60 @@
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<h3 class="panel-title">Add Issue</h3>
+	</div>
+
+	<div class="panel-body">
+		<div class="margin-bottom-50"></div>
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+			
+				<form name="createIssueForm" class="form-horizontal">
+					<div class="form-group">			
+						<h3>{{issue.IssueKey}}</h3>
+					</div>
+
+					<div class="form-group">
+						<label for="issue-title">Title: </label>
+						<input type="text" id="issue-title" required="required" ng-model="issue.title" class="form-control" value="{{issue.Title}}"/>
+					</div>
+
+					<div class="form-group">
+						<label for="issue-desc">Description: </label>
+						<textarea id="issue-desc" class="form-control" ng-model="issue.description" required="required">{{issue.Description}}</textarea>
+					</div>					
+
+					<div class="form-group">
+						<label for="issue-proj-id" >Project: </label>
+						<select id="issue-proj-id" class="form-control" ng-model="issue.projectId" ng-change="loadPriorities(issue.projectId)" required="required">
+							<option ng-repeat="proj in projects" value="{{proj.Id}}">{{proj.Name}}</option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label for="issue-assi-id">AssigneeId: </label>
+						<select id="issue-assi-id" class="form-control" ng-model="issue.assigneeId" required="required">
+							<option ng-repeat="user in users | orderBy:'Username'" value="{{user.Id}}">{{user.Username}}</option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label for="issue-prio-id">PriorityId: </label>
+						<select id="issue-prio-id" class="form-control" ng-model="issue.priority" required="required">
+							<option ng-repeat="prio in priorities">{{prio.Name}}</option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label for="issue-date">DueDate: </label>
+						<input type="date" id="issue-date" class="form-control" ng-model="issue.date" placeholder="yyyy/mm/dd" />
+					</div>
+					
+					<div class="form-group">
+						<button class="btn btn-success btn-lg" ng-disabled="createIssueForm.$invalid" ng-click="createIssue(issue)">Create Issue</button>
+					</div>	
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>

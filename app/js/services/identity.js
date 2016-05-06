@@ -11,12 +11,9 @@ angular.module('issueTrackingSystem.users.identity', [])
 
 			return {
 				getCurrentUser: function () {
-					// chaka nqkoi da napravi zaqvka za user-a
 					if (currentUser) {
-						// ako ima user go vrushta
-						return $q.when(currentUser); // returns a promise + resolved data
+						return $q.when(currentUser);
 					} else {
-						// ako ne vrushta promise che nqkoga shte go ima
 						return deferred.promise;
 					}
 				},

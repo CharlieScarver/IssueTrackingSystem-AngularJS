@@ -7,10 +7,10 @@ angular.module('issueTrackingSystem.projects.userLeadProjects', [])
 		'BASE_URL',
 		function ($http, $q, BASE_URL) {
 		
-			function getUserLeadProjects(userId, currentPage) {
+			function getUserLeadProjects(userId, currentPage, pageSize) {
 				var deferred = $q.defer();
 
-				var pageSize = 4;
+				pageSize = pageSize || 4;
 				currentPage = currentPage || 1;
 
 				$http.get(BASE_URL + 'Projects?filter=Lead.Id="' + userId + '"&pageSize=' 

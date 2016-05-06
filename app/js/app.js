@@ -8,7 +8,8 @@ angular.module('issueTrackingSystem', [
 		'issueTrackingSystem.logout',
 		'issueTrackingSystem.projects.projectPage',
 		'issueTrackingSystem.issues.issuePage',
-		'issueTrackingSystem.projects.editProjectPage'
+		'issueTrackingSystem.projects.editProjectPage',
+		'issueTrackingSystem.projects.addIssuePage'
 	])
 	.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
 		$routeProvider.otherwise({redirectTo: '/'});
@@ -24,6 +25,8 @@ angular.module('issueTrackingSystem', [
 							toastr.error(errors[0]);
 						}
 						console.log(errors[0]);
+					} else if (rejection.data && rejection.data.Message) {
+						toastr.error(rejection.data.Message);
 					}
 
 					console.log(rejection);
@@ -43,6 +46,7 @@ angular.module('issueTrackingSystem', [
 			});
 
 			authentication.refreshCookie();
+			$rootScope.__isAuthenticated = authentication.isAuthenticated();
 		}])
 	.constant('toastr', toastr)
 	.constant('BASE_URL','http://softuni-issue-tracker.azurewebsites.net/');

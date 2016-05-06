@@ -15,24 +15,19 @@
   <script src="bower_components/angular/angular.js"></script>
 </head>
 <body ng-cloak ng-controller="MainController">
-	<div ng-if="__isAuthenticated">
+
+	<div ng-show="__isAuthenticated">
 		<a href="#/" class="btn btn-success btn-lg">Dashboard</a>
 		<a href="#/projects" class="btn btn-success btn-lg">Projects</a>    
     <button ng-click="logout()" class="btn btn-link btn-lg">Logout</button>
 	</div>
-<!--
-	<div class="panel panel-info">
-    <div class="panel-heading">
-      <h3 class="panel-title">Something</h3>
-    </div>
-  </div>
--->
+
   <div class="container-fluid">
     <div ng-view></div>
   </div>
 
-  <div ng-if="isAuthenticated">
-    Hello, {{__currentUser.Username}}
+  <div ng-show="__isAuthenticated">
+    Hello, {{currentUser.Username}}
   </div>
 
   <script src="bower_components/jquery/dist/jquery.min.js"></script>
@@ -47,7 +42,8 @@
   <script src="js/controllers/logout-controller.js"></script>
   <script src="js/controllers/project-page-controller.js"></script>
   <script src="js/controllers/issue-page-controller.js"></script>
-  <script src="js/controllers/edit-project-controller.js"></script>
+  <script src="js/controllers/edit-project-controller.js"></script>  
+  <script src="js/controllers/add-issue-controller.js"></script>
   <script src="js/services/authentication.js"></script>
   <script src="js/services/identity.js"></script>
   <script src="js/services/user-issues.js"></script>
@@ -55,7 +51,9 @@
   <script src="js/services/get-project.js"></script>
   <script src="js/services/get-issue.js"></script>
   <script src="js/services/edit-project.js"></script>
-  <script src="js/services/get-user.js"></script>
+  <script src="js/services/get-user.js"></script>  
+  <script src="js/services/add-issue.js"></script>
+  <script src="js/services/get-all-users.js"></script>
   <script src="js/filters/character-limit.js"></script>  
   <script src="js/filters/range.js"></script>
   </body>

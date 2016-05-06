@@ -12,10 +12,10 @@ angular.module('issueTrackingSystem.issues.userIssues', [
 			var totalUserIssuesCount,
 				totalPages;
 
-			function getUserIssues(currentPage) {
+			function getUserIssues(currentPage, pageSize) {
 				var deferred = $q.defer();
 
-				var pageSize = 3;
+				pageSize = pageSize || 3;
 				currentPage = currentPage || 1;
 
 				$http.get(BASE_URL + 'Issues/me?orderBy=DueDate desc&pageSize=' + pageSize + '&pageNumber=' + currentPage)

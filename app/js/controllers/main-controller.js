@@ -11,13 +11,13 @@ angular.module('issueTrackingSystem.common', [
 		'$route',
 		'authentication',
 		'identity',
-		function MainController($scope, $rootScope, $location, $route, authentication, identity) {
-			identity.requestUserProfile();
+		function MainController($scope, $rootScope, $location, $route, authentication, identity) {			
+			if ($rootScope.__isAuthenticated) {
+				identity.requestUserProfile();
+			}
 
-			$scope.logout = function () {
-				// may be unnecessary
-				//identity.removeUserProfile();
-				//$scope.currentUser = undefined;		
+
+			$scope.logout = function () {	
 				$location.path('/logout');
 			};
 
@@ -31,12 +31,9 @@ angular.module('issueTrackingSystem.common', [
 					identity.getCurrentUser()
 						.then(function (user) {
 							$scope.currentUser = user;
-							//console.log(user);
-							console.log('main');
 						});
 				} else {
 					$scope.currentUser = undefined;
-					identity.removeUserProfile();
 				}        
 		    });
 
