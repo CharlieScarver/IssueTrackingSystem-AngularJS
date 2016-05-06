@@ -3,8 +3,9 @@
 angular.module('issueTrackingSystem.home', [
 		'issueTrackingSystem.users.authentication',
 		'issueTrackingSystem.users.identity',
-		'issueTrackingSystem.users.userIssues',
-		'issueTrackingSystem.users.userLeadProjects',
+		'issueTrackingSystem.issues.userIssues',
+		'issueTrackingSystem.projects.userLeadProjects',
+		'issueTrackingSystem.filters.characterLimit',
 		'issueTrackingSystem.filters.range'
 	])
 	.config(['$routeProvider', function ($routeProvider) {
@@ -74,7 +75,7 @@ angular.module('issueTrackingSystem.home', [
 				$scope.getProjectsPage = function (page) {
 
 					if (page !== $scope.currentProjectPage) {
-						userLeadProjects.getUserLeadProjects($scope.currentUser.Username, page)
+						userLeadProjects.getUserLeadProjects($scope.currentUser.Id, page)
 								.then(function(issuesData){
 									$scope.affiliatedProjects = issuesData.Projects;
 									$scope.totalProjectsPages = issuesData.TotalPages;
@@ -107,7 +108,7 @@ angular.module('issueTrackingSystem.home', [
 								});
 
 								// get projects where user is leader
-								userLeadProjects.getUserLeadProjects(user.Username, 1)
+								userLeadProjects.getUserLeadProjects(user.Id, 1)
 									.then(function (projectsData) {
 										$scope.totalProjectsPages = projectsData.TotalPages;	
 

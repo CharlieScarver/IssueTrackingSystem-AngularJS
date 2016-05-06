@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('issueTrackingSystem.users.userIssues', [
+angular.module('issueTrackingSystem.issues.userIssues', [
 		'issueTrackingSystem.filters.characterLimit'
 	])
 	.factory('userIssues', [

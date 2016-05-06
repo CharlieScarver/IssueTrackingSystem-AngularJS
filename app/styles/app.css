@@ -46,3 +46,24 @@
 .table {
   margin-top: 10px;
 }
+
+.container-fluid {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.not-bold {
+  font-weight: normal;
+}
+
+hr {
+  border-top: 1px solid #5FBA7D;
+}
+
+.issues-table, .issues-table tr, .issues-table td {
+  max-width: 250px;
+}
+
+.row {
+  max-width: 1900px;
+}
