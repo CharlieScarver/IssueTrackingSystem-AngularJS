@@ -13,15 +13,9 @@ angular.module('issueTrackingSystem.common', [
 		function MainController($scope, $location, $route, authentication, identity) {
 
 			$scope.logout = function () {
-				authentication.logout();
 				$scope.isAuthenticated = false;
 				$scope.currentUser = undefined;
-
-				if ($location.path() === '/') {
-					$route.reload();
-				} else {
-					$location.path('/');
-				}
+				$location.path('/logout');
 			};
 
 			identity.getCurrentUser()
@@ -32,7 +26,7 @@ angular.module('issueTrackingSystem.common', [
 				});
 
 			if (authentication.isAuthenticated() && !$scope.currentUser) {
-				$scope.isAuthenticated = true;
+				$scope.isAuthenticated = true; // to see navigation
 				identity.requestUserProfile();
 			}
 
