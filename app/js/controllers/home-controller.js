@@ -1,12 +1,11 @@
 'use strict';
 
 angular.module('issueTrackingSystem.home', [
-		//'ui.bootstrap',
 		'issueTrackingSystem.users.authentication',
 		'issueTrackingSystem.users.identity',
 		'issueTrackingSystem.users.userIssues',
 		'issueTrackingSystem.users.userLeadProjects',
-		'issueTrackingSystem.filters.range'		
+		'issueTrackingSystem.filters.range'
 	])
 	.config(['$routeProvider', function ($routeProvider) {
 		$routeProvider.when('/', {
@@ -46,21 +45,35 @@ angular.module('issueTrackingSystem.home', [
 			};
 
 			$scope.getIssuesPage = function (page) {
+				function changeActivePageButton(page) {
+					$('.issue-page-btn').removeClass('btn-success');
+					$('#ipb-' + page).addClass('btn-success');
+				}
+
 				userIssues.getUserIssues(page)
 						.then(function(issuesData){
 							$scope.userIssues = issuesData.Issues;
 							$scope.totalIssuePages = issuesData.TotalPages;
 							$scope.currentIssuePage = page;
 						});
+
+				changeActivePageButton(page);
 			};
 
 			$scope.getProjectsPage = function (page) {
+				function changeActivePageButton(page) {
+					$('.project-page-btn').removeClass('btn-success');
+					$('#ppb-' + page).addClass('btn-success');
+				}
+
 				userLeadProjects.getUserLeadProjects($scope.currentUser.Username, page)
 						.then(function(issuesData){
 							$scope.affiliatedProjects = issuesData.Projects;
 							$scope.totalProjectsPages = issuesData.TotalPages;
 							$scope.currentProjectPage = page;
 						});
+
+				changeActivePageButton(page);
 			};
 
 
@@ -98,7 +111,6 @@ angular.module('issueTrackingSystem.home', [
 
 									$scope.affiliatedProjects = affiliatedProjects;
 									console.log($scope.affiliatedProjects);
-
 								});																		
 						});
 					
