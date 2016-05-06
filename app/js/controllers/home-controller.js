@@ -25,7 +25,9 @@ angular.module('issueTrackingSystem.home', [
 			identity, userIssues, userLeadProjects) {
 			var affiliatedProjects = [],
 				totalIssuePages,
-				currentIssuePage = 1;
+				currentIssuePage = 1,
+				totalProjectsPages,
+				currentProjectPage = 1;
 
 			$scope.isAuthenticated = authentication.isAuthenticated();
 
@@ -43,12 +45,6 @@ angular.module('issueTrackingSystem.home', [
 					});
 			};
 
-			$scope.logout = function () {
-				authentication.logout();
-				$scope.isAuthenticated = false;
-				$route.reload();
-			};
-
 			$scope.getIssuesPage = function (page) {
 				userIssues.getUserIssues(page)
 						.then(function(issuesData){
@@ -56,24 +52,17 @@ angular.module('issueTrackingSystem.home', [
 							$scope.totalIssuePages = issuesData.TotalPages;
 							$scope.currentIssuePage = page;
 						});
-			}
-
-/*/------------------------------- TODO: REMOVE ui.bootstrap and angular-animate
-			$scope.totalItems = 64;
-			$scope.currentPage = 4;
-
-			$scope.setPage = function (pageNo) {
-				$scope.currentPage = pageNo;
 			};
 
-			$scope.pageChanged = function() {
-				$log.log('Page changed to: ' + $scope.currentPage);
+			$scope.getProjectsPage = function (page) {
+				userLeadProjects.getUserLeadProjects($scope.currentUser.Username, page)
+						.then(function(issuesData){
+							$scope.affiliatedProjects = issuesData.Projects;
+							$scope.totalProjectsPages = issuesData.TotalPages;
+							$scope.currentProjectPage = page;
+						});
 			};
 
-			$scope.maxSize = 5;
-			$scope.bigTotalItems = 175;
-			$scope.bigCurrentPage = 1;
-//----------------------------------*/
 
 			// get current user
 			identity.getCurrentUser()
@@ -90,31 +79,26 @@ angular.module('issueTrackingSystem.home', [
 
 							// add issue projects to affiliated projects
 							$scope.userIssues.forEach(function(el) {
-								if (el && !affiliatedProjects[el.Project.Name]) {
-									affiliatedProjects[el.Project.Name] = el.Project;
+								if (el) {
+									//affiliatedProjects.push(el.Project);
 								}
 							});
 
 							// get projects where user is leader
 							userLeadProjects.getUserLeadProjects(user.Username, 1)
 								.then(function (projectsData) {
+									$scope.totalProjectsPages = projectsData.TotalPages;	
 
 									// add them to affiliated projects
 									projectsData.Projects.forEach(function(el) {
-										if (el && !affiliatedProjects[el.Name]) {
-											affiliatedProjects[el.Name] = el;
+										if (el) {
+											affiliatedProjects.push(el);
 										}
 									});
-	
-									if (!$scope.$$phase) {
-										$scope.$apply(function() {
-											$scope.affiliatedProjects = affiliatedProjects;
-											console.log($scope.affiliatedProjects);
-										});
-									}
 
 									$scope.affiliatedProjects = affiliatedProjects;
-											console.log($scope.affiliatedProjects);
+									console.log($scope.affiliatedProjects);
+
 								});																		
 						});
 					
