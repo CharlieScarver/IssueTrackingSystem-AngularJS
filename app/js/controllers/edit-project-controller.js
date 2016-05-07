@@ -86,6 +86,11 @@ angular.module('issueTrackingSystem.projects.editProjectPage', [
 								toastr.error("Unauthorized Access!");								
 							}
 						});
+
+					getProject.getProjectIssues(projectData.Id)
+						.then(function (issues) {
+							$scope.project.Issues = issues;
+						});
 				});
 
 		}]);

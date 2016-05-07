@@ -10,6 +10,7 @@ angular.module('issueTrackingSystem', [
 		'issueTrackingSystem.projects.projectPage',		
 		'issueTrackingSystem.projects.editProjectPage',
 		'issueTrackingSystem.projects.addIssuePage',
+		'issueTrackingSystem.projects.allProjects',
 		'issueTrackingSystem.issues.issuePage',
 		'issueTrackingSystem.issues.editIssuePage'
 	])

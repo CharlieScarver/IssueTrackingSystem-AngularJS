@@ -60,7 +60,7 @@ angular.module('issueTrackingSystem.home', [
 
 			$scope.register = function (user) {
 				authentication.registerUser(user)
-					.then(function() {
+					.then(function () {
 						$route.reload();
 						toastr.success('You successfully registered and logged in.');
 						$rootScope.__isAuthenticated = true;
@@ -73,7 +73,7 @@ angular.module('issueTrackingSystem.home', [
 
 					if (parseInt(page) !== parseInt($scope.currentIssuePage)) {
 						userIssues.getUserIssues(page)
-							.then(function(issuesData){
+							.then(function (issuesData){
 								$scope.userIssues = issuesData.Issues;
 								$scope.totalIssuePages = issuesData.TotalPages;
 								$scope.currentIssuePage = page;
@@ -87,7 +87,7 @@ angular.module('issueTrackingSystem.home', [
 
 					if (page !== $scope.currentProjectPage) {
 						userLeadProjects.getUserLeadProjects($scope.currentUser.Id, page)
-								.then(function(issuesData){
+								.then(function (issuesData){
 									$scope.affiliatedProjects = issuesData.Projects;
 									$scope.totalProjectsPages = issuesData.TotalPages;
 									$scope.currentProjectPage = page;
@@ -106,7 +106,7 @@ angular.module('issueTrackingSystem.home', [
 
 						// get issues
 						userIssues.getUserIssues(1)
-							.then(function(issuesData){
+							.then(function (issuesData){
 								$scope.userIssues = issuesData.Issues;
 								$scope.totalIssuePages = issuesData.TotalPages;				
 
@@ -133,7 +133,7 @@ angular.module('issueTrackingSystem.home', [
 										$scope.affiliatedProjects = affiliatedProjects;
 
 										// giving time for the ng-repeat to be executed after scope update
-										$timeout(function(){
+										$timeout(function () {
 											changeActiveIssuePageButton($scope.currentIssuePage);
 											changeActiveProjectPageButton($scope.currentProjectPage);
 										}, 0);
