@@ -21,7 +21,7 @@ angular.module('issueTrackingSystem.projects.editProject', [])
 				for (var i = 0, len = project.Priorities; i < len; i++) {
 					projectData += '&Priorities[' + i + '].Name' + project.Priorities.Name;
 				}
-					
+				
 				request = {
 				    method: 'PUT',
 				    url: BASE_URL + 'Projects/' + projectId,

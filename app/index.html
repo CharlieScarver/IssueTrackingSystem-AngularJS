@@ -21,14 +21,13 @@
 		<a href="#/" class="btn btn-success btn-lg">Dashboard</a>
 		<a href="#/projects" class="btn btn-success btn-lg">Projects</a>    
     <button ng-click="logout()" class="btn btn-link btn-lg">Logout</button>
+    <div ng-show="__isAuthenticated">
+      Hello, {{currentUser.Username}}
+    </div>
 	</div>
 
   <div class="container-fluid">
     <div ng-view></div>
-  </div>
-
-  <div ng-show="__isAuthenticated">
-    Hello, {{currentUser.Username}}
   </div>
 
   <script src="bower_components/jquery/dist/jquery.min.js"></script>

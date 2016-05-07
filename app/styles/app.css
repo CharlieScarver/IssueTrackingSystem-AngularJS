@@ -71,3 +71,7 @@ hr {
 .row {
   max-width: 1900px;
 }
+
+.margin-left-10 {
+  margin-left: 10px;
+}
