@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('issueTrackingSystem.logout', [
+angular.module('issueTrackingSystem.users.logout', [
 		'issueTrackingSystem.users.authentication'
 	])
 	.config(['$routeProvider', function ($routeProvider) {

@@ -31,6 +31,7 @@ angular.module('issueTrackingSystem.common', [
 					identity.getCurrentUser()
 						.then(function (user) {
 							$scope.currentUser = user;
+							$scope.isAdmin = user.isAdmin;
 						});
 				} else {
 					$scope.currentUser = undefined;
