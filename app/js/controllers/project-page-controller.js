@@ -35,6 +35,11 @@ angular.module('issueTrackingSystem.projects.projectPage', [
 				.then(function (projectData) {
 					$scope.project = projectData;
 
+					getProject.getProjectIssues(projectId)
+						.then(function (issues) {
+							$scope.project.Issues = issues;
+						})
+
 					identity.getCurrentUser()
 						.then(function (user) {
 							$scope.currentUser = user;

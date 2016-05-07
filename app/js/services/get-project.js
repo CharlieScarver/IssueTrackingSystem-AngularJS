@@ -23,19 +23,14 @@ angular.module('issueTrackingSystem.projects.getProject', [])
 
 				$http.get(BASE_URL + 'Projects/' + projectId)
 					.then(function (response) {
-						var project = response.data;
-						// get issues
-						getProjectIssues(projectId)
-							.then(function (issues) {
-								project.Issues = issues;
-								deferred.resolve(project);
-							})
+						deferred.resolve(response.data);
 					});
 
 				return deferred.promise;	
 			}			
 
 			return {
-				getProjectById: getProjectById
+				getProjectById: getProjectById,
+				getProjectIssues: getProjectIssues
 			}
 		}])

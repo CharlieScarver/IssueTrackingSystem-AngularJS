@@ -6,10 +6,11 @@ angular.module('issueTrackingSystem', [
 		'issueTrackingSystem.common',
 		'issueTrackingSystem.home',
 		'issueTrackingSystem.logout',
-		'issueTrackingSystem.projects.projectPage',
-		'issueTrackingSystem.issues.issuePage',
+		'issueTrackingSystem.projects.projectPage',		
 		'issueTrackingSystem.projects.editProjectPage',
-		'issueTrackingSystem.projects.addIssuePage'
+		'issueTrackingSystem.projects.addIssuePage',
+		'issueTrackingSystem.issues.issuePage',
+		'issueTrackingSystem.issues.editIssuePage'
 	])
 	.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {
 		$routeProvider.otherwise({redirectTo: '/'});

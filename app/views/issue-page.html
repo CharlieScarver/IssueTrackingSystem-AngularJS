@@ -10,32 +10,32 @@
 			
 				<form class="form-horizontal">
 					<div class="form-group">			
-						<h3>{{issue.IssueKey}}</h3>
+						<h3>{{issue.IssueKey}} <a ng-if="isProjectLeader" href="#/issues/{{issue.Id}}/edit" class="btn btn-success ">Edit</a> </h3>
 					</div>
 
 					<div class="form-group">
 						<label for="issue-title">Title: </label>
-						<input type="text" id="issue-title" disabled="disabled" value="{{issue.Title}}"/>
+						<input type="text" id="issue-title" class="form-control" disabled="disabled" value="{{issue.Title}}"/>
 					</div>
 
 					<div class="form-group">
 						<label for="issue-desc">Description: </label>
-						<input type="text" id="issue-desc" disabled="disabled" value="{{issue.Description}}"/>
+						<input type="text" id="issue-desc" class="form-control" disabled="disabled" value="{{issue.Description}}"/>
 					</div>
 
 					<div class="form-group">
 						<label for="issue-assi-id">AssigneeId: <span class="not-bold">(current id: {{issue.Assignee.Id}})</span></label>
-						<input type="text" id="issue-assi-id" disabled="disabled" value="{{issue.Assignee.Username}}"/>
+						<input type="text" id="issue-assi-id" class="form-control" disabled="disabled" value="{{issue.Assignee.Username}}"/>
 					</div>
 
 					<div class="form-group">
 						<label for="issue-prio-id">PriorityId: <span class="not-bold">(current id: {{issue.Priority.Id}})</span></label>
-						<input type="text" id="issue-prio-id" disabled="disabled" value="{{issue.Priority.Name}}"/>
+						<input type="text" id="issue-prio-id" class="form-control" disabled="disabled" value="{{issue.Priority.Name}}"/>
 					</div>
 
 					<div class="form-group">
 						<label for="issue-date">DueDate: </label>
-						<input type="text" id="issue-date" disabled="disabled" value="{{issue.DueDate}}"/>
+						<input type="text" id="issue-date" class="form-control" disabled="disabled" value="{{issue.DueDate}}"/>
 					</div>
 
 					<div class="form-group">
@@ -59,7 +59,7 @@
 
 			<div class="col-md-6 col-md-offset-1">
 				<h3>Available statuses:</h3>
-				<h4 ng-repeat="status in issue.AvailableStatuses">----{{status.Name}}</h4>		
+				<h4 ng-repeat="status in issue.AvailableStatuses">----{{status.Name}} <button ng-if="isAssignee" ng-click="changeIssueStatus(status.Id, status.Name)" class="btn btn-success ">Change</button> </h4>		
 			</div>
 		</div>
 	</div>

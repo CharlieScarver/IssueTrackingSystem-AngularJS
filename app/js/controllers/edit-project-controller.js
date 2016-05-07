@@ -14,13 +14,31 @@ angular.module('issueTrackingSystem.projects.editProjectPage', [
 				}
 
 				return $q.reject('Unauthorized Access');
-			}]
+			}]/*,
+			isProjectLeader: ['$q', '$route', 'identity', 'getProject', 
+				function ($q, $route, identity, getProject) {
+
+					var projectId = $route.current.pathParams['id'];
+					getProject.getProjectById(projectId)
+						.then(function (projectData) {
+
+							identity.getCurrentUser()
+								.then(function (user) {
+									console.log(user.Id + ' '+ projectData.Lead.Id);
+									if (user.Id.toString() === projectData.Lead.Id.toString()) {
+										return $q.when(true);
+									}
+
+									return $q.reject('Unauthorized Access');
+								});
+						});					
+				}]*/
 		};
 
 		$routeProvider.when('/projects/:id/edit', {
 			templateUrl: 'views/edit-project.html',
 			controller: 'EditProjectPageController',
-			resolve: routeChecks.authenticated
+			resolve: routeChecks
 		})
 	}])
 	// TODO: Check if user can access this path

@@ -108,14 +108,15 @@ angular.module('issueTrackingSystem.home', [
 						userIssues.getUserIssues(1)
 							.then(function(issuesData){
 								$scope.userIssues = issuesData.Issues;
-								$scope.totalIssuePages = issuesData.TotalPages;					
+								$scope.totalIssuePages = issuesData.TotalPages;				
 
+								// TODO: Add issue projects to affiliated
 								// add issue projects to affiliated projects
-								$scope.userIssues.forEach(function(el) {
-									if (el) {
+								//$scope.userIssues.forEach(function(el) {
+									//if (el) {
 										//affiliatedProjects.push(el.Project);
-									}
-								});
+									//}
+								//});
 
 								// get projects where user is leader
 								userLeadProjects.getUserLeadProjects(user.Id, 1)
@@ -135,10 +136,11 @@ angular.module('issueTrackingSystem.home', [
 										$timeout(function(){
 											changeActiveIssuePageButton($scope.currentIssuePage);
 											changeActiveProjectPageButton($scope.currentProjectPage);
-										}, 10);
+										}, 0);
 									});																		
 							});
 						
 					});	
+
 			} // if authenticated	
 		}]);
