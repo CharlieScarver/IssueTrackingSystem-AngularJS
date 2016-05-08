@@ -4,6 +4,7 @@ angular.module('issueTrackingSystem.projects.editProjectPage', [
 		'issueTrackingSystem.users.authorization',
 		'issueTrackingSystem.users.identity',
 		'issueTrackingSystem.users.getUser',
+		'issueTrackingSystem.users.getAllUsers',
 		'issueTrackingSystem.projects.getProject',
 		'issueTrackingSystem.projects.editProject'
 	])
@@ -28,31 +29,24 @@ angular.module('issueTrackingSystem.projects.editProjectPage', [
 		'$scope',
 		'$route',
 		'$location',
-		'toastr',
+		'$timeout',
 		'identity',
 		'getUser',
+		'getAllUsers',
 		'getProject',
 		'editProject',
-		function EditProjectPageController($scope, $route, $location,
-			toastr, identity, getUser, getProject, editProject) {
+		'toastr',
+		function EditProjectPageController($scope, $route, $location, $timeout,
+			identity, getUser, getAllUsers, getProject, editProject, toastr) {
 
 			var projectId = $route.current.pathParams['id'];
 
 			$scope.editProject = function (project) {
-				getUser.getUserByUsername(project.Lead.Username)
-					.then(function (userArray) {
-						if (userArray.length > 0) {
-							project.Lead = userArray[0];
-
-							editProject.editProject(projectId, project)
-								.then(function (editedProject) {
-									$location.path('/projects/' + projectId);
-									toastr.success('Project "' + editedProject.Name + '" was edited successfully');
-								});
-						} else {							
-							toastr.error('User "' + project.Lead.Username + '" doesn\'t exist!');
-						}
-					});				
+				editProject.editProject(projectId, project)
+					.then(function (editedProject) {
+						$location.path('/projects/' + projectId);
+						toastr.success('Project "' + editedProject.Name + '" was edited successfully');
+					});	
 			};
 			
 			getProject.getProjectById(projectId)
@@ -89,6 +83,17 @@ angular.module('issueTrackingSystem.projects.editProjectPage', [
 						.then(function (issues) {
 							$scope.project.Issues = issues;
 						});
+				});
+
+			getAllUsers.getAllUsers()
+				.then(function (usersData) {
+					$scope.users = usersData;
+
+					$timeout(function () {
+						var userOption = $("select option[value='" + $scope.project.Lead.Id + "']");
+						userOption.attr("selected","selected");
+					}, 10);
+
 				});
 
 		}]);
