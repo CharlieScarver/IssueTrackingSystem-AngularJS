@@ -59,7 +59,7 @@
 
 			<div class="col-md-6 col-md-offset-1">
 				<h3>Available statuses:</h3>
-				<h4 ng-repeat="status in issue.AvailableStatuses">----{{status.Name}} <button ng-if="isAssignee" ng-click="changeIssueStatus(status.Id, status.Name)" class="btn btn-success ">Change</button> </h4>		
+				<h4 ng-repeat="status in issue.AvailableStatuses">----{{status.Name}} <button ng-if="isProjectLeader || isAssignee" ng-click="changeIssueStatus(status.Id, status.Name)" class="btn btn-success ">Change</button> </h4>		
 			</div>
 		</div>
 	</div>

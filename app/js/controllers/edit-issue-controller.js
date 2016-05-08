@@ -105,7 +105,6 @@ angular.module('issueTrackingSystem.issues.editIssuePage', [
 								.then(function (user) {
 									$scope.currentUser = user;
 									if (user.Id === project.Lead.Id || user.isAdmin) {
-										$scope.isProjectLeader = true;
 
 										userLeadProjects.getUserLeadProjects(user.Id, 1, 10000)
 											.then(function (projectsData){

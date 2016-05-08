@@ -56,7 +56,7 @@ angular.module('issueTrackingSystem.issues.issuePage', [
 							identity.getCurrentUser()
 								.then(function (user) {
 									$scope.currentUser = user;
-									if (user.Id === projectData.Lead.Id) {
+									if (user.Id === projectData.Lead.Id || user.isAdmin) {
 										$scope.isProjectLeader = true;
 									}
 
