@@ -77,7 +77,7 @@ angular.module('issueTrackingSystem.projects.editProjectPage', [
 					identity.getCurrentUser()
 						.then(function (user) {
 							$scope.currentUser = user;
-							if (user.Id === projectData.Lead.Id) {
+							if (user.Id === projectData.Lead.Id || user.isAdmin) {
 								$scope.isProjectLeader = true;
 							} else {
 								$location.path('/');

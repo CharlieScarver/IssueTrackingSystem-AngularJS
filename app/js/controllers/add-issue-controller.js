@@ -7,7 +7,8 @@ angular.module('issueTrackingSystem.projects.addIssuePage', [
 		'issueTrackingSystem.users.getAllUsers',
 		'issueTrackingSystem.labels.getAllLabels',
 		'issueTrackingSystem.projects.addIssue',
-		'issueTrackingSystem.projects.getProject'
+		'issueTrackingSystem.projects.getProject',		
+		'issueTrackingSystem.projects.getProjects'
 	])
 	.config(['$routeProvider', function ($routeProvider) {
 		var routeChecks = {
@@ -38,10 +39,11 @@ angular.module('issueTrackingSystem.projects.addIssuePage', [
 		'getAllLabels',
 		'addIssue',
 		'getProject',
+		'getProjects',
 		'toastr',
 		function AddIssuePageController($scope, $route, $location, 
 			$rootScope, $timeout, identity, userLeadProjects, getAllUsers, 
-			getAllLabels, addIssue, getProject, toastr) {
+			getAllLabels, addIssue, getProject, getProjects, toastr) {
 
 			var projectId = $route.current.pathParams['id'];
 
@@ -78,28 +80,38 @@ angular.module('issueTrackingSystem.projects.addIssuePage', [
 
 					getProject.getProjectById(projectId)
 						.then(function (project) {
-							if ((user.Id != project.Lead.Id) && !user.isAdmin) {
+							if ((user.Id !== project.Lead.Id) && !user.isAdmin) {
 								$location.path('/');
 								toastr.error('Unauthorized Access');
 							} else {
 								$scope.issue.projectId = project.Id;
-								// to use later in $timeout
-								
+								// to use later in $timeout						
 							}						
 						});
 
-					userLeadProjects.getUserLeadProjects(user.Id, 1, 10000)
-						.then(function (projectsData){
-							$scope.projects = projectsData.Projects;
+					if (user.isAdmin) {
+						// get All projects
+						getProjects.getProjectsPage(1, 10000)
+							.then(function (projectsData) {
+								$scope.projects = projectsData.Projects;
+							});
 
-							$timeout(function(){
-								var projectOption = 
-									$("select option[value='" + $scope.issue.projectId + "']");
-								projectOption.attr("selected","selected");
-								$scope.issue.projectId = projectOption.val();
-								$scope.loadPriorities($scope.issue.projectId);
-							}, 10);					
-						});
+					} else {
+						// get projects where the user is Leader
+						userLeadProjects.getUserLeadProjects(user.Id, 1, 10000)
+							.then(function (projectsData){
+								$scope.projects = projectsData.Projects;
+
+								$timeout(function(){
+									var projectOption = 
+										$("select option[value='" + $scope.issue.projectId + "']");
+									projectOption.attr("selected","selected");
+									$scope.issue.projectId = projectOption.val();
+									$scope.loadPriorities($scope.issue.projectId);
+								}, 30);	
+							});
+					}
+					
 				});
 			
 			getAllUsers.getAllUsers()
