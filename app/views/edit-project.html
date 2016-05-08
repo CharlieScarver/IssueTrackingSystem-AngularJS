@@ -31,11 +31,21 @@
 					</div>
 
 					<div class="form-group">
-						Labels: <span ng-repeat="label in project.Labels">{{label.Name}}, </span>
+						<label for="project-priorities">Priorities: <span class="not-bold">(comma-separated)</span></label>
+						<input type="text" id="project-priorities" class="form-control" ng-model="project.priorities" ng-change="complete()" placeholder="Add New Priorities" />
+					</div>
+
+					<div class="form-group">
+						<label for="project-labels">Labels: <span class="not-bold">(comma-separated)</span></label>
+						<input type="text" id="project-labels" class="form-control" ng-model="project.labels" ng-change="complete()" placeholder="Add New Labels" />
 					</div>
 
 					<div class="form-group">
 						Priorities: <span ng-repeat="prio in project.Priorities">{{prio.Name}}, </span>
+					</div>
+
+					<div class="form-group">
+						Labels: <span ng-repeat="label in project.Labels">{{label.Name}}, </span>
 					</div>
 					
 					<div class="form-group">

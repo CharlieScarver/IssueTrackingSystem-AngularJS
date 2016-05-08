@@ -59,6 +59,21 @@ angular.module('issueTrackingSystem.projects.editProjectPage', [
 				.then(function (projectData) {
 					$scope.project = projectData;
 
+					var commaSepPriorities = "",
+						commaSepLabels = "";
+
+					// make Priorities string
+					projectData.Priorities.forEach(function (el) {
+						commaSepPriorities += el.Name + ', ';
+					});					
+					$scope.project.priorities = commaSepPriorities;
+
+					// make Labels string
+					projectData.Labels.forEach(function (el) {
+						commaSepLabels += el.Name + ', ';
+					});		
+					$scope.project.labels = commaSepLabels;
+
 					identity.getCurrentUser()
 						.then(function (user) {
 							$scope.currentUser = user;

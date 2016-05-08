@@ -14,12 +14,26 @@ angular.module('issueTrackingSystem.projects.editProject', [])
 					+ '&Description=' + project.Description 
 					+ '&LeadId=' + project.Lead.Id;
 
-				for (var i = 0, len = project.Labels; i < len; i++) {
-					projectData += '&Labels[' + i + '].Name' + project.Labels.Name;
+				if (project.priorities) {
+					var re = /,\s*/g,
+						prioritiesList = project.priorities.split(re);			
+
+					for (var i = 0, len = prioritiesList.length; i < len; i++) {
+						if (prioritiesList[i] !== "") {
+							projectData += '&Priorities[' + i + '].Name=' + prioritiesList[i];
+						}
+					}
 				}
 
-				for (var i = 0, len = project.Priorities; i < len; i++) {
-					projectData += '&Priorities[' + i + '].Name' + project.Priorities.Name;
+				if (project.labels) {
+					var re = /,\s*/g,
+						labelList = project.labels.split(re);			
+
+					for (var i = 0, len = labelList.length; i < len; i++) {
+						if (labelList[i] !== "") {
+							projectData += '&Labels[' + i + '].Name=' + labelList[i];
+						}
+					}
 				}
 				
 				request = {
