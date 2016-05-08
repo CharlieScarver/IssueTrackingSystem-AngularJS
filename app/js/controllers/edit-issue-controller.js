@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('issueTrackingSystem.issues.editIssuePage', [
+		'issueTrackingSystem.users.authorization',
 		'issueTrackingSystem.users.identity',
 		'issueTrackingSystem.users.getAllUsers',
 		'issueTrackingSystem.issues.getIssue',		
@@ -90,12 +91,12 @@ angular.module('issueTrackingSystem.issues.editIssuePage', [
 					$scope.issue = issueData;
 
 					getProject.getProjectById(issueData.Project.Id)
-						.then(function (projectData) {	
+						.then(function (project) {	
 							
 							identity.getCurrentUser()
 								.then(function (user) {
 									$scope.currentUser = user;
-									if (user.Id === projectData.Lead.Id) {
+									if (user.Id === project.Lead.Id || user.isAdmin) {
 										$scope.isProjectLeader = true;
 
 										userLeadProjects.getUserLeadProjects(user.Id, 1, 10000)
@@ -108,7 +109,7 @@ angular.module('issueTrackingSystem.issues.editIssuePage', [
 													userOption.attr("selected","selected");
 													$scope.issue.assigneeId = userOption.val();
 
-													loadPriorities(projectData.Id);
+													loadPriorities(project.Id);
 													$timeout(function(){
 														var priorityOption = 
 															$("select option[value='" + issueData.Priority.Id + "']");

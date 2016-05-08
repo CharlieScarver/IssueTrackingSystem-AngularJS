@@ -98,49 +98,42 @@ angular.module('issueTrackingSystem.home', [
 				};
 
 
-				// get current user
-				identity.getCurrentUser()
-					.then(function (user) {
-						$scope.currentUser = user;
-						$scope.isAuthenticated = true;
+				// get issues
+				userIssues.getUserIssues($scope.currentIssuePage)
+					.then(function (issuesData){
+						$scope.userIssues = issuesData.Issues;
+						$scope.totalIssuePages = issuesData.TotalPages;				
 
-						// get issues
-						userIssues.getUserIssues(1)
-							.then(function (issuesData){
-								$scope.userIssues = issuesData.Issues;
-								$scope.totalIssuePages = issuesData.TotalPages;				
+						// TODO: Add issue projects to affiliated
+						// add issue projects to affiliated projects
+						//$scope.userIssues.forEach(function(el) {
+							//if (el) {
+								//affiliatedProjects.push(el.Project);
+							//}
+						//});
 
-								// TODO: Add issue projects to affiliated
-								// add issue projects to affiliated projects
-								//$scope.userIssues.forEach(function(el) {
-									//if (el) {
-										//affiliatedProjects.push(el.Project);
-									//}
-								//});
+						// get projects where user is leader
+						userLeadProjects.getUserLeadProjects($rootScope.__currentUser.Id, $scope.currentProjectPage)
+							.then(function (projectsData) {
+								$scope.totalProjectsPages = projectsData.TotalPages;	
 
-								// get projects where user is leader
-								userLeadProjects.getUserLeadProjects(user.Id, 1)
-									.then(function (projectsData) {
-										$scope.totalProjectsPages = projectsData.TotalPages;	
+								// add them to affiliated projects
+								projectsData.Projects.forEach(function(el) {
+									if (el) {
+										affiliatedProjects.push(el);
+									}
+								});
 
-										// add them to affiliated projects
-										projectsData.Projects.forEach(function(el) {
-											if (el) {
-												affiliatedProjects.push(el);
-											}
-										});
+								$scope.affiliatedProjects = affiliatedProjects;
 
-										$scope.affiliatedProjects = affiliatedProjects;
+								// giving time for the ng-repeat to be executed after scope update
+								$timeout(function () {
+									changeActiveIssuePageButton($scope.currentIssuePage);
+									changeActiveProjectPageButton($scope.currentProjectPage);
+								}, 0);
+							});																		
+					});
 
-										// giving time for the ng-repeat to be executed after scope update
-										$timeout(function () {
-											changeActiveIssuePageButton($scope.currentIssuePage);
-											changeActiveProjectPageButton($scope.currentProjectPage);
-										}, 0);
-									});																		
-							});
-						
-					});	
 
 			} // if authenticated	
 		}]);

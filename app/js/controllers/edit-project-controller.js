@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('issueTrackingSystem.projects.editProjectPage', [
+		'issueTrackingSystem.users.authorization',
 		'issueTrackingSystem.users.identity',
 		'issueTrackingSystem.users.getUser',
 		'issueTrackingSystem.projects.getProject',
@@ -14,34 +15,15 @@ angular.module('issueTrackingSystem.projects.editProjectPage', [
 				}
 
 				return $q.reject('Unauthorized Access');
-			}]/*,
-			isProjectLeader: ['$q', '$route', 'identity', 'getProject', 
-				function ($q, $route, identity, getProject) {
-
-					var projectId = $route.current.pathParams['id'];
-					getProject.getProjectById(projectId)
-						.then(function (projectData) {
-
-							identity.getCurrentUser()
-								.then(function (user) {
-									console.log(user.Id + ' '+ projectData.Lead.Id);
-									if (user.Id.toString() === projectData.Lead.Id.toString()) {
-										return $q.when(true);
-									}
-
-									return $q.reject('Unauthorized Access');
-								});
-						});					
-				}]*/
-		};
+			}]
+		};		
 
 		$routeProvider.when('/projects/:id/edit', {
 			templateUrl: 'views/edit-project.html',
 			controller: 'EditProjectPageController',
-			resolve: routeChecks
+			resolve: routeChecks.authenticated
 		})
 	}])
-	// TODO: Check if user can access this path
 	.controller('EditProjectPageController', [
 		'$scope',
 		'$route',
@@ -63,8 +45,9 @@ angular.module('issueTrackingSystem.projects.editProjectPage', [
 							project.Lead = userArray[0];
 
 							editProject.editProject(projectId, project)
-								.then(function (edited) {
+								.then(function (editedProject) {
 									$location.path('/projects/' + projectId);
+									toastr.success('Project "' + editedProject.Name + '" was edited successfully');
 								});
 						} else {							
 							toastr.error('User "' + project.Lead.Username + '" doesn\'t exist!');

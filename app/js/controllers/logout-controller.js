@@ -30,6 +30,7 @@ angular.module('issueTrackingSystem.users.logout', [
 			$scope.logout = function () {
 				authentication.logout();
 				$rootScope.__isAuthenticated = false;
+				$rootScope.__currentUser = undefined;
 				$location.path('/');
 				toastr.success('You successfully logged out.');
 			};

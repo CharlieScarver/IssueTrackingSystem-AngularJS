@@ -1,11 +1,13 @@
 'use strict';
 
 angular.module('issueTrackingSystem.projects.addIssuePage', [
+		'issueTrackingSystem.users.authorization',
 		'issueTrackingSystem.users.identity',
 		'issueTrackingSystem.projects.userLeadProjects',
 		'issueTrackingSystem.users.getAllUsers',
 		'issueTrackingSystem.labels.getAllLabels',
-		'issueTrackingSystem.projects.addIssue'
+		'issueTrackingSystem.projects.addIssue',
+		'issueTrackingSystem.projects.getProject'
 	])
 	.config(['$routeProvider', function ($routeProvider) {
 		var routeChecks = {
@@ -28,20 +30,18 @@ angular.module('issueTrackingSystem.projects.addIssuePage', [
 		'$scope',
 		'$route',
 		'$location',
+		'$rootScope',
 		'identity',
 		'userLeadProjects',
 		'getAllUsers',
 		'getAllLabels',
 		'addIssue',
+		'getProject',
 		'toastr',
-		function AddIssuePageController($scope, $route, $location, identity, 
-			userLeadProjects, getAllUsers, getAllLabels, addIssue, toastr) {
+		function AddIssuePageController($scope, $route, $location, $rootScope, identity, 
+			userLeadProjects, getAllUsers, getAllLabels, addIssue, getProject, toastr) {
 
-			var projectId = $route.current.pathParams['id'];
-
-			$( "#datepicker" ).datepicker({
-				dateFormat: "yy/mm/dd"
-			});
+			var projectId = $route.current.pathParams['id'];		
 			
 			$scope.createIssue = function (issue) {
 				addIssue.addIssue(issue)
@@ -72,6 +72,14 @@ angular.module('issueTrackingSystem.projects.addIssuePage', [
 					$scope.currentUser = user;
 					$scope.isAuthenticated = true;
 
+					getProject.getProjectById(projectId)
+						.then(function (project) {
+							if ((user.Id != project.Lead.Id) && !user.isAdmin) {
+								$location.path('/');
+								toastr.error('Unauthorized Access');
+							}							
+						});
+
 					userLeadProjects.getUserLeadProjects(user.Id, 1, 10000)
 						.then(function (projectsData){
 							$scope.projects = projectsData.Projects;							
@@ -98,4 +106,8 @@ angular.module('issueTrackingSystem.projects.addIssuePage', [
 				    };
 				});
 
+
+				$( "#datepicker" ).datepicker({
+					dateFormat: "yy/mm/dd"
+				});
 		}]);

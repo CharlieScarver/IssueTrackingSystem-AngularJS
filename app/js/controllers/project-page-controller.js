@@ -24,10 +24,11 @@ angular.module('issueTrackingSystem.projects.projectPage', [
 	.controller('ProjectPageController', [
 		'$scope',
 		'$route',
+		'$rootScope',
 		'identity',
 		'getProject',
 		function ProjectPageController($scope, $route, 
-			identity, getProject) {
+			$rootScope, identity, getProject) {
 
 			var projectId = $route.current.pathParams['id'];
 			
@@ -35,18 +36,14 @@ angular.module('issueTrackingSystem.projects.projectPage', [
 				.then(function (projectData) {
 					$scope.project = projectData;
 
+					if ($rootScope.__currentUser.Id === projectData.Lead.Id || $rootScope.__currentUser.isAdmin) {
+						$scope.isProjectLeader = true;
+					}
+
 					getProject.getProjectIssues(projectId)
 						.then(function (issues) {
 							$scope.project.Issues = issues;
-						})
-
-					identity.getCurrentUser()
-						.then(function (user) {
-							$scope.currentUser = user;
-							if (user.Id === projectData.Lead.Id) {
-								$scope.isProjectLeader = true;
-							}
-						});
+						})	
 				});			
 
 		}]);

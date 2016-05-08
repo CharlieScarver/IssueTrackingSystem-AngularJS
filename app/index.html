@@ -19,16 +19,16 @@
 
 	<div ng-show="__isAuthenticated">
 		<a href="#/" class="btn btn-success btn-lg">Dashboard</a>
-    <strong ng-if="isAdmin">||</strong>
-		<a href="#/projects" ng-if="isAdmin" class="btn btn-success btn-lg">Projects</a>
-    <strong ng-if="isAdmin">||</strong>
-    <a href="#/projects/add" ng-if="isAdmin" class="btn btn-success btn-lg">Add Project</a>
+    <strong ng-if="__currentUser.isAdmin">||</strong>
+		<a href="#/projects" ng-if="__currentUser.isAdmin" class="btn btn-success btn-lg">Projects</a>
+    <strong ng-if="__currentUser.isAdmin">||</strong>
+    <a href="#/projects/add" ng-if="__currentUser.isAdmin" class="btn btn-success btn-lg">Add Project</a>
     <strong>||</strong>
     <a href="#/profile/password" class="btn btn-warning">Change Password</a>
     <strong>||</strong>
     <button ng-click="logout()" class="btn btn-link btn-lg">Logout</button>
     <div ng-show="__isAuthenticated">
-      Hello, {{currentUser.Username}}
+      Hello, {{__currentUser.Username}}
     </div>
 	</div>
 
@@ -72,6 +72,7 @@
   <script src="js/services/edit-issue.js"></script>
   <script src="js/services/change-password.js"></script>
   <script src="js/services/get-all-projects.js"></script>
+  <script src="js/services/authorization.js"></script>
 
   <script src="js/filters/character-limit.js"></script>  
   <script src="js/filters/range.js"></script>

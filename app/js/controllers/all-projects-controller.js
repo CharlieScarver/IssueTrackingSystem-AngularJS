@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('issueTrackingSystem.projects.allProjects', [
+		'issueTrackingSystem.users.authorization',
 		'issueTrackingSystem.users.identity',
 		'issueTrackingSystem.projects.getProjects'
 	])
@@ -18,7 +19,7 @@ angular.module('issueTrackingSystem.projects.allProjects', [
 		$routeProvider.when('/projects', {
 			templateUrl: 'views/all-projects.html',
 			controller: 'AllProjectsController',
-			resolve: routeChecks
+			resolve: routeChecks.authenticated
 		})
 	}])	
 	.controller('AllProjectsController', [
@@ -40,7 +41,7 @@ angular.module('issueTrackingSystem.projects.allProjects', [
 				.then(function (user) {
 					if (!user.isAdmin) {
 						$location.path('/');
-						toastr.error();
+						toastr.error('Unauthorized Access');
 					} else {							
 						$scope.currentUser = user;
 						$scope.isAdmin = user.isAdmin;
