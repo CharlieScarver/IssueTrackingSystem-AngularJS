@@ -18,13 +18,17 @@ angular.module('issueTrackingSystem.issues.editIssue', [])
 						+ '&DueDate=' + $('#datepicker').val();
 						// TODO: ngModel can't take date value from datepicker
 
-				for (var i = 0, len = issue.Labels.length; i < len; i++) {
-					issueData += '&Labels[' + i + '].Name=' + issue.Labels[i].Name;
+				if (issue.labels) {
+					var re = /,\s*/g,
+						labelList = issue.labels.split(re);			
+
+					for (var i = 0, len = labelList.length; i < len; i++) {
+						if (labelList[i] !== "") {
+							issueData += '&Labels[' + i + '].Name=' + labelList[i];
+						}
+					}
 				}
-				if (issue.label !== undefined) {
-					issueData += '&Labels[' + issue.Labels.length + '].Name=' + issue.label;
-				}
-						
+
 				request = {
 				    method: 'PUT',
 				    url: BASE_URL + 'Issues/' + issue.Id,

@@ -86,7 +86,7 @@ angular.module('issueTrackingSystem.home', [
 				$scope.getProjectsPage = function (page) {
 
 					if (page !== $scope.currentProjectPage) {
-						userLeadProjects.getUserLeadProjects($scope.currentUser.Id, page)
+						userLeadProjects.getUserLeadProjects($rootScope.__currentUser.Id, page)
 								.then(function (issuesData){
 									$scope.affiliatedProjects = issuesData.Projects;
 									$scope.totalProjectsPages = issuesData.TotalPages;
@@ -107,9 +107,9 @@ angular.module('issueTrackingSystem.home', [
 						// TODO: Add issue projects to affiliated
 						// add issue projects to affiliated projects
 						//$scope.userIssues.forEach(function(el) {
-							//if (el) {
-								//affiliatedProjects.push(el.Project);
-							//}
+						//	if (el && !affiliatedProjects.includes(el)) {
+						//		affiliatedProjects.push(el.Project);
+						//	}
 						//});
 
 						// get projects where user is leader

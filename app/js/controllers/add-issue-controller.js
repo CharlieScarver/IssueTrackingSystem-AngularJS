@@ -31,6 +31,7 @@ angular.module('issueTrackingSystem.projects.addIssuePage', [
 		'$route',
 		'$location',
 		'$rootScope',
+		'$timeout',
 		'identity',
 		'userLeadProjects',
 		'getAllUsers',
@@ -38,10 +39,13 @@ angular.module('issueTrackingSystem.projects.addIssuePage', [
 		'addIssue',
 		'getProject',
 		'toastr',
-		function AddIssuePageController($scope, $route, $location, $rootScope, identity, 
-			userLeadProjects, getAllUsers, getAllLabels, addIssue, getProject, toastr) {
+		function AddIssuePageController($scope, $route, $location, 
+			$rootScope, $timeout, identity, userLeadProjects, getAllUsers, 
+			getAllLabels, addIssue, getProject, toastr) {
 
-			var projectId = $route.current.pathParams['id'];		
+			var projectId = $route.current.pathParams['id'];
+
+			$scope.issue = {};		
 			
 			$scope.createIssue = function (issue) {
 				addIssue.addIssue(issue)
@@ -77,18 +81,30 @@ angular.module('issueTrackingSystem.projects.addIssuePage', [
 							if ((user.Id != project.Lead.Id) && !user.isAdmin) {
 								$location.path('/');
 								toastr.error('Unauthorized Access');
-							}							
+							} else {
+								$scope.issue.projectId = project.Id;
+								// to use later in $timeout
+								
+							}						
 						});
 
 					userLeadProjects.getUserLeadProjects(user.Id, 1, 10000)
 						.then(function (projectsData){
-							$scope.projects = projectsData.Projects;							
+							$scope.projects = projectsData.Projects;
+
+							$timeout(function(){
+								var projectOption = 
+									$("select option[value='" + $scope.issue.projectId + "']");
+								projectOption.attr("selected","selected");
+								$scope.issue.projectId = projectOption.val();
+								$scope.loadPriorities($scope.issue.projectId);
+							}, 10);					
 						});
 				});
 			
 			getAllUsers.getAllUsers()
 				.then(function (usersData) {
-					$scope.users = usersData;
+					$scope.users = usersData;					
 				});
 
 			getAllLabels.getAllLabels()
@@ -109,5 +125,5 @@ angular.module('issueTrackingSystem.projects.addIssuePage', [
 
 				$( "#datepicker" ).datepicker({
 					dateFormat: "yy/mm/dd"
-				});
+				});				
 		}]);

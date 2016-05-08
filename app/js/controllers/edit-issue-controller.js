@@ -90,6 +90,14 @@ angular.module('issueTrackingSystem.issues.editIssuePage', [
 				.then(function (issueData) {
 					$scope.issue = issueData;
 
+					var commaSepLabels = "";
+					issueData.Labels.forEach(function (el) {
+						commaSepLabels += el.Name + ', ';
+					});
+
+					// for the input				
+					$scope.issue.labels = commaSepLabels;
+
 					getProject.getProjectById(issueData.Project.Id)
 						.then(function (project) {	
 							
@@ -139,6 +147,7 @@ angular.module('issueTrackingSystem.issues.editIssuePage', [
 					labels.forEach(function (el) {
 						labelsArr.push(el.Name);
 					});
+
 					$scope.labels = labelsArr;
 
 					$scope.complete = function () {

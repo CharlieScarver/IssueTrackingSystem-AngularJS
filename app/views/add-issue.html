@@ -46,8 +46,8 @@
 					</div>
 
 					<div class="form-group">
-						<label for="issue-label">Label: </label>
-						<input type="text" id="issue-label" class="form-control" ng-model="issue.label" ng-change="complete()"/>
+						<label for="issue-labels">Labels: <span class="not-bold">(comma-separated)</span></label>
+						<input type="text" id="issue-labels" class="form-control" ng-model="issue.labels" ng-change="complete()"/>
 					</div>
 					
 					<div class="form-group"><!--- ng-disabled="createIssueForm.$invalid" -->
