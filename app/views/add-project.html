@@ -1,0 +1,48 @@
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<h3 class="panel-title">Edit Project</h3>
+	</div>
+
+	<div class="panel-body">
+		<div class="margin-bottom-35"></div>
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+			
+				<form name="addProjectForm" class="form-horizontal">
+
+					<div class="form-group">
+						<label for="proj-name">Name: </label>
+						<input type="text" id="proj-name" class="form-control" ng-model="project.Name" required="required"/>
+					</div>
+
+					<div class="form-group">
+						<label for="proj-desc">Description: </label>
+						<input type="text" id="proj-desc" class="form-control" ng-model="project.Description" required="required"/>
+					</div>
+
+					<div class="form-group">
+						<label for="proj-lead-id">LeadId: <span class="not-bold">(current id: {{project.Lead.Id}})</span></label>
+						<select id="proj-lead-id" ng-if="currentUser.isAdmin" class="form-control" ng-model="project.Lead.Id" required="required">
+							<option ng-repeat="user in users | orderBy:'Username'" value="{{user.Id}}">{{user.Username}}</option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label for="project-priorities">Priorities: <span class="not-bold">(comma-separated)</span></label>
+						<input type="text" id="project-priorities" class="form-control" ng-model="project.priorities" ng-change="complete()" placeholder="Add New Priorities" />
+					</div>
+
+					<div class="form-group">
+						<label for="project-labels">Labels: <span class="not-bold">(comma-separated)</span></label>
+						<input type="text" id="project-labels" class="form-control" ng-model="project.labels" ng-change="complete()" placeholder="Add New Labels" />
+					</div>
+					
+					<div class="form-group">
+						<button class="btn btn-success btn-lg" ng-disabled="addProjectForm.$invalid" ng-click="createProject(project)">Create Project</button>
+					</div>					
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>

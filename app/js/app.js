@@ -11,6 +11,7 @@ angular.module('issueTrackingSystem', [
 		'issueTrackingSystem.projects.editProjectPage',
 		'issueTrackingSystem.projects.addIssuePage',
 		'issueTrackingSystem.projects.allProjects',
+		'issueTrackingSystem.projects.addProjectPage',
 		'issueTrackingSystem.issues.issuePage',
 		'issueTrackingSystem.issues.editIssuePage'
 	])
